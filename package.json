@@ -13,6 +13,7 @@
     "db:push": "prisma db push",
     "db:migrate:dev": "prisma migrate dev",
     "db:migrate:deploy": "prisma migrate deploy",
+    "db:seed": "node prisma/seed.mjs",
     "db:studio": "prisma studio",
     "data:export": "node scripts/data-transfer.mjs export",
     "data:import": "node scripts/data-transfer.mjs import",

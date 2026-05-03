@@ -14,9 +14,11 @@ async function exportData(targetPathArg) {
     `prisma-export-${new Date().toISOString().replace(/[:.]/g, "-")}.json`,
   );
 
-  const [persons, pools, memberships, matches, scores] = await Promise.all([
+  const [persons, pools, users, viewAccesses, memberships, matches, scores] = await Promise.all([
     prisma.person.findMany(),
     prisma.pool.findMany(),
+    prisma.appUser.findMany(),
+    prisma.poolViewAccess.findMany(),
     prisma.poolPerson.findMany(),
     prisma.match.findMany(),
     prisma.matchScore.findMany(),
@@ -27,12 +29,16 @@ async function exportData(targetPathArg) {
     counts: {
       persons: persons.length,
       pools: pools.length,
+      users: users.length,
+      viewAccesses: viewAccesses.length,
       memberships: memberships.length,
       matches: matches.length,
       scores: scores.length,
     },
     persons,
     pools,
+    users,
+    viewAccesses,
     memberships,
     matches,
     scores,
@@ -50,7 +56,9 @@ async function importData(sourcePathArg) {
   await prisma.$transaction(async (tx) => {
     await tx.matchScore.deleteMany();
     await tx.match.deleteMany();
+    await tx.poolViewAccess.deleteMany();
     await tx.poolPerson.deleteMany();
+    await tx.appUser.deleteMany();
     await tx.pool.deleteMany();
     await tx.person.deleteMany();
 
@@ -60,6 +68,14 @@ async function importData(sourcePathArg) {
 
     if (Array.isArray(payload.pools) && payload.pools.length) {
       await tx.pool.createMany({ data: payload.pools });
+    }
+
+    if (Array.isArray(payload.users) && payload.users.length) {
+      await tx.appUser.createMany({ data: payload.users });
+    }
+
+    if (Array.isArray(payload.viewAccesses) && payload.viewAccesses.length) {
+      await tx.poolViewAccess.createMany({ data: payload.viewAccesses });
     }
 
     if (Array.isArray(payload.memberships) && payload.memberships.length) {

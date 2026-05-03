@@ -2,7 +2,7 @@
 
 ## Aanbevolen stack
 
-- Hosting: Vercel (gratis)
+- Hosting: Netlify (gratis) of Vercel (gratis)
 - Database: Neon Postgres (gratis) of Supabase Postgres (gratis)
 
 ## 1) Voorbereiding lokaal
@@ -11,7 +11,8 @@
 
    npm run data:export -- ./prisma-export.json
 
-2. Commit en push je project naar GitHub.
+2. Zet lokaal je `.env` op Postgres waarden zoals in [.env.example](.env.example).
+3. Commit en push je project naar GitHub.
 
 ## 2) Productie-DB aanmaken
 
@@ -20,42 +21,27 @@
    - `DATABASE_URL` (pooled / runtime)
    - `DIRECT_URL` (non-pooled / migrations)
 
-## 3) Prisma omschakelen naar Postgres
+## 3) Prisma migratie gebruiken
 
-Pas in [prisma/schema.prisma](prisma/schema.prisma) de datasource aan:
+Deze repo bevat een initiële Postgres migratie onder `prisma/migrations`.
 
-- `provider = "sqlite"` -> `provider = "postgresql"`
+## 4) Netlify configureren
 
-De velden `url` en `directUrl` staan al correct op env vars.
-
-## 4) Eerste migratie voor productie
-
-Voer lokaal uit nadat de provider is aangepast:
-
-1. Maak lokaal een `.env.production` met Postgres waarden.
-2. Run:
-
-   prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0001_init/migration.sql
-
-3. Commit de map `prisma/migrations`.
-
-## 5) Vercel configureren
-
-1. Importeer de GitHub repo in Vercel.
+1. Importeer de GitHub repo in Netlify.
 2. Voeg omgevingsvariabelen toe:
    - `DATABASE_URL`
    - `DIRECT_URL`
-3. Build command:
+3. Netlify gebruikt [netlify.toml](netlify.toml) met deze build flow:
 
-   npm run db:generate; npm run db:migrate:deploy; npm run build
+   npm run db:generate; npm run db:migrate:deploy; npm run db:seed; npm run build
 
 4. Deploy.
 
-## 6) Data importeren in Postgres
+## 5) Data importeren in Postgres
 
 Na eerste deploy kun je je export importeren:
 
-1. Zet tijdelijk je lokale `.env` op Postgres URL's.
+1. Zet lokaal je `.env` op dezelfde Postgres URL's als productie.
 2. Run:
 
    npm run data:import -- ./prisma-export.json
@@ -64,5 +50,6 @@ Na eerste deploy kun je je export importeren:
 
 ## Opmerking
 
-- SQLite blijft ideaal voor lokaal development.
+- `data:export` en `data:import` nemen ook `AppUser`-accounts en `PoolViewAccess` mee, zodat login en zichtrechten behouden blijven.
+- `db:seed` is idempotent en vult standaard de demo-users `admin` en `manager` aan.
 - Voor persistente productie-data op serverless is Postgres de juiste keuze.

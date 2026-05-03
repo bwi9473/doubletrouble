@@ -24,7 +24,7 @@ Mobile-first webapp om een padelcompetitie voor vrienden te beheren.
 
 - Next.js (App Router) + React + TypeScript
 - Tailwind CSS (mobile first)
-- Prisma + SQLite
+- Prisma + PostgreSQL
 - Zustand (client state voor rolkeuze)
 - Vitest (unit/API tests)
 
@@ -58,15 +58,20 @@ Mobile-first webapp om een padelcompetitie voor vrienden te beheren.
 
 	 npm install
 
-2. Database genereren:
+2. Vul je database-URL's in op basis van [.env.example](.env.example).
 
-	 npm run db:push
+	 DATABASE_URL en DIRECT_URL moeten naar dezelfde Postgres database wijzen.
 
-3. Dev-server starten:
+3. Database migreren en demo-users aanmaken:
+
+	 npm run db:migrate:deploy
+	 npm run db:seed
+
+4. Dev-server starten:
 
 	 npm run dev
 
-4. Open http://localhost:3000
+5. Open http://localhost:3000
 
 ## Testen en checks
 
@@ -82,10 +87,9 @@ Mobile-first webapp om een padelcompetitie voor vrienden te beheren.
 
 ## Gratis online deploy
 
-Deze app is geschikt voor Vercel.
+Deze app is geschikt voor Netlify of Vercel, mits je een externe Postgres database gebruikt.
 
-Belangrijk: SQLite is lokaal bestand-gebaseerd en niet ideaal voor persistente cloud-data op serverless.
-Voor productie kun je Prisma eenvoudig naar een externe database verplaatsen (bijv. Postgres) en dezelfde API-structuur behouden.
+Belangrijk: serverless hosting gebruikt geen lokale persistente SQLite file. Gebruik daarom Postgres voor zowel runtime als migrations.
 
 Volledige stap-voor-stap handleiding:
 

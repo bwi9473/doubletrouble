@@ -97,13 +97,6 @@ export function LoginModal() {
             {isLoading ? "Bezig met inloggen..." : "Inloggen"}
           </button>
         </form>
-
-        <div className="ui-note mt-6 rounded-2xl p-4 text-xs">
-          <p className="text-app-foreground mb-2 font-medium">Demo gegevens:</p>
-          <p>• admin / admin123 (Admin)</p>
-          <p>• manager / manager123 (Wedstrijd)</p>
-          <p className="text-app-muted mt-2">Spelers loggen in met hun naam als gebruikersnaam.</p>
-        </div>
       </div>
     </div>
   );
