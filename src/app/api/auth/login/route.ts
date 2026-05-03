@@ -5,7 +5,7 @@ import { loginSchema } from "@/lib/validation";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body: Record<string, unknown> = await request.json();
     const parsed = loginSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -58,9 +58,16 @@ export async function POST(request: Request) {
 
     return response;
   } catch (error) {
-    console.error("Login error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error("Login error:", {
+      message: errorMessage,
+      stack: error instanceof Error ? error.stack : undefined,
+      databaseUrl: process.env.DATABASE_URL ? "set" : "not set",
+      directUrl: process.env.DIRECT_URL ? "set" : "not set",
+      nodeEnv: process.env.NODE_ENV,
+    });
     return NextResponse.json(
-      { error: "Er is een fout opgetreden bij het inloggen." },
+      { error: `Login failed: ${errorMessage}` },
       { status: 500 },
     );
   }
