@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum PoolStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum CompetitionFormat {
+  FULL
+  SHORT
+}
+
+enum UserRole {
+  VIEWER
+  ADMIN
+  MATCH_MANAGER
+}
+
+model AppUser {
+  id        String   @id @default(cuid())
+  name      String
+  username  String   @unique
+  password  String
+  role      UserRole @default(VIEWER)
+  personId  String?  @unique
+  person    Person?  @relation(fields: [personId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Person {
+  id                 String       @id @default(cuid())
+  name               String
+  rankingLabel       String
+  rankingValue       Int?
+  photoUrl           String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  appUser            AppUser?
+  memberships        PoolPerson[]
+  viewAccesses       PoolViewAccess[]
+  team1Player1Matches Match[]     @relation("Team1Player1")
+  team1Player2Matches Match[]     @relation("Team1Player2")
+  team2Player1Matches Match[]     @relation("Team2Player1")
+  team2Player2Matches Match[]     @relation("Team2Player2")
+}
+
+model Pool {
+  id         String      @id @default(cuid())
+  name       String
+  size       Int
+  status     PoolStatus  @default(ACTIVE)
+  competitionFormat CompetitionFormat @default(FULL)
+  duoTarget  Int         @default(1)
+  archivedAt DateTime?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  members    PoolPerson[]
+  viewers    PoolViewAccess[]
+  matches    Match[]
+}
+
+model PoolViewAccess {
+  id        String   @id @default(cuid())
+  poolId    String
+  personId  String
+  createdAt DateTime @default(now())
+  pool      Pool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  person    Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([poolId, personId])
+  @@index([personId])
+}
+
+model PoolPerson {
+  id        String   @id @default(cuid())
+  poolId    String
+  personId  String
+  createdAt DateTime @default(now())
+  pool      Pool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  person    Person   @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([poolId, personId])
+}
+
+model Match {
+  id             String      @id @default(cuid())
+  poolId         String
+  order          Int
+  team1Player1Id String
+  team1Player2Id String
+  team2Player1Id String
+  team2Player2Id String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  pool           Pool        @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  team1Player1   Person      @relation("Team1Player1", fields: [team1Player1Id], references: [id])
+  team1Player2   Person      @relation("Team1Player2", fields: [team1Player2Id], references: [id])
+  team2Player1   Person      @relation("Team2Player1", fields: [team2Player1Id], references: [id])
+  team2Player2   Person      @relation("Team2Player2", fields: [team2Player2Id], references: [id])
+  score          MatchScore?
+
+  @@index([poolId, order])
+}
+
+model MatchScore {
+  id              String    @id @default(cuid())
+  matchId          String    @unique
+  team1Games       Int
+  team2Games       Int
+  submittedByRole  UserRole?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  match            Match     @relation(fields: [matchId], references: [id], onDelete: Cascade)
+}

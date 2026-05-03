@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">Vijf padelrackets tegen padelnet</title>
+  <desc id="desc">Gestileerde illustratie van een padelveld met net en vijf padelrackets op de voorgrond.</desc>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b2533"/>
+      <stop offset="100%" stop-color="#061823"/>
+    </linearGradient>
+    <linearGradient id="courtGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#155e75"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+    <linearGradient id="racketHead" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="racketHandle" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <pattern id="mesh" width="14" height="14" patternUnits="userSpaceOnUse">
+      <path d="M0 0L14 14M14 0L0 14" stroke="#d1d5db" stroke-width="0.8" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="360" fill="url(#bgGrad)"/>
+  <rect x="0" y="190" width="1200" height="170" fill="url(#courtGrad)"/>
+
+  <line x1="120" y1="270" x2="1080" y2="270" stroke="#cbd5e1" stroke-width="8" stroke-linecap="round"/>
+  <rect x="120" y="190" width="960" height="80" fill="url(#mesh)" opacity="0.8"/>
+  <line x1="120" y1="190" x2="1080" y2="190" stroke="#e2e8f0" stroke-width="5"/>
+
+  <g transform="translate(170 290) rotate(-22)">
+    <ellipse cx="0" cy="-95" rx="44" ry="56" fill="url(#racketHead)" stroke="#ecfeff" stroke-width="4"/>
+    <ellipse cx="0" cy="-95" rx="26" ry="34" fill="none" stroke="#e0f2fe" stroke-width="2" opacity="0.8"/>
+    <rect x="-8" y="-40" width="16" height="74" rx="8" fill="url(#racketHandle)"/>
+    <rect x="-10" y="32" width="20" height="26" rx="8" fill="#7c2d12"/>
+  </g>
+
+  <g transform="translate(360 300) rotate(-10)">
+    <ellipse cx="0" cy="-105" rx="46" ry="58" fill="url(#racketHead)" stroke="#ecfeff" stroke-width="4"/>
+    <ellipse cx="0" cy="-105" rx="27" ry="35" fill="none" stroke="#e0f2fe" stroke-width="2" opacity="0.8"/>
+    <rect x="-8" y="-45" width="16" height="80" rx="8" fill="url(#racketHandle)"/>
+    <rect x="-10" y="34" width="20" height="26" rx="8" fill="#7c2d12"/>
+  </g>
+
+  <g transform="translate(580 302) rotate(0)">
+    <ellipse cx="0" cy="-112" rx="48" ry="60" fill="url(#racketHead)" stroke="#ecfeff" stroke-width="4"/>
+    <ellipse cx="0" cy="-112" rx="29" ry="36" fill="none" stroke="#e0f2fe" stroke-width="2" opacity="0.8"/>
+    <rect x="-8" y="-48" width="16" height="86" rx="8" fill="url(#racketHandle)"/>
+    <rect x="-10" y="36" width="20" height="28" rx="8" fill="#7c2d12"/>
+  </g>
+
+  <g transform="translate(810 300) rotate(12)">
+    <ellipse cx="0" cy="-104" rx="46" ry="58" fill="url(#racketHead)" stroke="#ecfeff" stroke-width="4"/>
+    <ellipse cx="0" cy="-104" rx="27" ry="35" fill="none" stroke="#e0f2fe" stroke-width="2" opacity="0.8"/>
+    <rect x="-8" y="-44" width="16" height="80" rx="8" fill="url(#racketHandle)"/>
+    <rect x="-10" y="34" width="20" height="26" rx="8" fill="#7c2d12"/>
+  </g>
+
+  <g transform="translate(1000 290) rotate(24)">
+    <ellipse cx="0" cy="-95" rx="44" ry="56" fill="url(#racketHead)" stroke="#ecfeff" stroke-width="4"/>
+    <ellipse cx="0" cy="-95" rx="26" ry="34" fill="none" stroke="#e0f2fe" stroke-width="2" opacity="0.8"/>
+    <rect x="-8" y="-40" width="16" height="74" rx="8" fill="url(#racketHandle)"/>
+    <rect x="-10" y="32" width="20" height="26" rx="8" fill="#7c2d12"/>
+  </g>
+
+  <circle cx="96" cy="88" r="28" fill="#facc15" opacity="0.9"/>
+  <circle cx="96" cy="88" r="17" fill="none" stroke="#fde68a" stroke-width="3"/>
+</svg>
