@@ -7,6 +7,13 @@ import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
+type DashboardMatch = {
+  id: string;
+  poolName: string;
+  label: string;
+  scoreLabel?: string;
+};
+
 export default async function Home() {
   const cookieStore = await cookies();
   const role = cookieStore.get("demo-role")?.value;
@@ -43,7 +50,7 @@ export default async function Home() {
     };
   });
 
-  const upcomingMatches = visibleActivePools.flatMap((pool) =>
+  const upcomingMatches: DashboardMatch[] = visibleActivePools.flatMap((pool) =>
     pool.matches
       .filter((match) => !match.score)
       .slice(0, 5)
@@ -53,7 +60,7 @@ export default async function Home() {
         label: `${match.team1Player1.name} & ${match.team1Player2.name} vs ${match.team2Player1.name} & ${match.team2Player2.name}`,
       })),
   );
-  const playedMatches = visibleActivePools.flatMap((pool) =>
+  const playedMatches: DashboardMatch[] = visibleActivePools.flatMap((pool) =>
     pool.matches
       .filter((match) => Boolean(match.score))
       .slice(0, 8)
@@ -112,7 +119,7 @@ export default async function Home() {
                 <div key={match.id} className="ui-card-subtle rounded-3xl p-4">
                   <p className="text-xs uppercase tracking-[0.25em] text-app-accent">{match.poolName}</p>
                   <p className="mt-2 text-sm text-app-foreground">{match.label}</p>
-                  {!isAdmin && "scoreLabel" in match ? (
+                  {!isAdmin && match.scoreLabel ? (
                     <p className="mt-2 text-xs text-app-muted">Score: {match.scoreLabel}</p>
                   ) : null}
                 </div>

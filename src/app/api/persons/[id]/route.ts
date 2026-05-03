@@ -17,9 +17,9 @@ export async function PATCH(
   }
 
   const { id } = await params;
-  const body = await request.json();
+  const body: Record<string, unknown> = await request.json();
   const visiblePoolIds = Array.isArray(body.visiblePoolIds)
-    ? body.visiblePoolIds.filter((value): value is string => typeof value === "string")
+    ? body.visiblePoolIds.filter((value: unknown): value is string => typeof value === "string")
     : [];
   const parsed = personSchema.safeParse({
     ...body,

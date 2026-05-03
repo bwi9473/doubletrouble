@@ -29,7 +29,7 @@ type PoolRecord = {
   }>;
   matches: Array<{
     id: string;
-    score: { id: string } | null;
+    score: { team1Games: number; team2Games: number } | null;
   }>;
 };
 
